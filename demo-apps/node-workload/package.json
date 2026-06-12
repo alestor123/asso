@@ -1,0 +1,9 @@
+{
+  "name": "asso-node-workload",
+  "version": "1.0.0",
+  "description": "ASSO Demo - Node.js Workload Service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

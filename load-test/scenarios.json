@@ -1,0 +1,44 @@
+{
+  "scenarios": {
+    "gentle_ramp": {
+      "description": "Gradual ramp-up — good for demo warmup",
+      "target": "http://localhost:6001/work",
+      "pattern": "ramp",
+      "duration": 60,
+      "max_rps": 50,
+      "intensity": 3
+    },
+    "spike_flask": {
+      "description": "Sharp spike on Flask API — triggers ASSO prediction + throttle",
+      "target": "http://localhost:6001/work",
+      "pattern": "spike",
+      "duration": 90,
+      "max_rps": 150,
+      "intensity": 6
+    },
+    "spike_node": {
+      "description": "Sharp spike on Node.js service — triggers ASSO prediction + throttle",
+      "target": "http://localhost:6002/compute",
+      "pattern": "spike",
+      "duration": 90,
+      "max_rps": 150,
+      "intensity": 7
+    },
+    "sustained_stress": {
+      "description": "Sustained high load — tests ongoing orchestration",
+      "target": "http://localhost:6001/work",
+      "pattern": "stress",
+      "duration": 120,
+      "max_rps": 200,
+      "intensity": 8
+    },
+    "wave_pattern": {
+      "description": "Wave pattern — tests throttle relaxation",
+      "target": "http://localhost:6002/compute",
+      "pattern": "wave",
+      "duration": 120,
+      "max_rps": 100,
+      "intensity": 5
+    }
+  }
+}

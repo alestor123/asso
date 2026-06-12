@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # ── Database ──
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: asso_db
+      MYSQL_USER: asso
+      MYSQL_PASSWORD: asso_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Demo App: Flask REST API ──
+  flask-api:
+    build: ./demo-apps/flask-api
+    ports:
+      - "6001:6001"
+    environment:
+      PORT: "6001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6001/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # ── Demo App: Node.js Workload Service ──
+  node-workload:
+    build: ./demo-apps/node-workload
+    ports:
+      - "6002:6002"
+    environment:
+      PORT: "6002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6002/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # ── ASSO Backend ──
+  asso-backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "mysql+aiomysql://asso:asso_pass@mysql:3306/asso_db"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      flask-api:
+        condition: service_healthy
+      node-workload:
+        condition: service_healthy
+
+  # ── ASSO Frontend ──
+  asso-frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - asso-backend
+
+volumes:
+  mysql_data:
