@@ -3,9 +3,8 @@ import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import ComparisonView from './components/ComparisonView';
 import './App.css';
-
-const WS_URL = `ws://${window.location.hostname}:8000/ws`;
-const API_URL = `http://${window.location.hostname}:8000`;
+const WS_URI = 'wss://feisty-recluse-quickness.ngrok-free.dev/ws';
+const API_URL = 'https://feisty-recluse-quickness.ngrok-free.dev';
 
 function App() {
   const [view, setView] = useState('dashboard'); // dashboard | comparison
