@@ -11,8 +11,8 @@ class Config:
 
     # Forecaster
     FORECAST_INTERVAL = float(os.getenv("FORECAST_INTERVAL", "3.0"))
-    FORECAST_HORIZON = int(os.getenv("FORECAST_HORIZON", "60"))  # seconds ahead
-    HISTORY_WINDOW = int(os.getenv("HISTORY_WINDOW", "120"))  # seconds of history
+    FORECAST_HORIZON = int(os.getenv("FORECAST_HORIZON", "60"))
+    HISTORY_WINDOW = int(os.getenv("HISTORY_WINDOW", "120"))
 
     # Thresholds
     CPU_WARNING = float(os.getenv("CPU_WARNING", "70"))
@@ -36,13 +36,13 @@ class Config:
     THROTTLED_RPS_HIGH = int(os.getenv("THROTTLED_RPS_HIGH", "50"))
     THROTTLED_RPS_CRITICAL = int(os.getenv("THROTTLED_RPS_CRITICAL", "10"))
 
-    # Services
+    # Monitored services (defaults work for Docker Compose)
     SERVICES = [
         {
             "id": "flask-api",
             "name": "Flask REST API",
-            "host": "127.0.0.1",
-            "port": 6001,
+            "host": os.getenv("FLASK_HOST", "127.0.0.1"),
+            "port": int(os.getenv("FLASK_PORT", "6001")),
             "service_type": "rest-api",
             "metrics_path": "/metrics",
             "health_path": "/health",
@@ -51,8 +51,8 @@ class Config:
         {
             "id": "node-workload",
             "name": "Node.js Workload Service",
-            "host": "127.0.0.1",
-            "port": 6002,
+            "host": os.getenv("NODE_HOST", "127.0.0.1"),
+            "port": int(os.getenv("NODE_PORT", "6002")),
             "service_type": "workload",
             "metrics_path": "/metrics",
             "health_path": "/health",

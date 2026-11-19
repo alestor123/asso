@@ -8,3 +8,4 @@ aiohttp==3.12.6
 websockets==15.0.1
 httpx==0.28.1
 aiosqlite==0.21.0
+aiomysql==0.2.0

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: asso
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./asso.db

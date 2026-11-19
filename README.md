@@ -74,6 +74,17 @@ This launches:
 docker-compose up --build
 ```
 
+## Render Deployment
+
+The repository includes a root `Dockerfile` and `render.yaml` that package the frontend, FastAPI backend, Flask demo app, and Node workload into one Render web service.
+
+1. Push the project to GitHub.
+2. In Render, choose **New → Blueprint** and select the repository.
+3. Deploy `render.yaml`.
+4. Render will build the Docker image and expose the application on the generated HTTPS URL.
+
+To deploy manually, create a Render **Web Service** using the Docker runtime and keep the Docker build context as the repository root. The health check path is `/health`.
+
 ---
 
 ## 🎬 5-Minute Live Demo Script

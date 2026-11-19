@@ -3,8 +3,11 @@ import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import ComparisonView from './components/ComparisonView';
 import './App.css';
-const WS_URI = 'wss://feisty-recluse-quickness.ngrok-free.dev/ws';
-const API_URL = 'https://feisty-recluse-quickness.ngrok-free.dev';
+
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const WS_URI = API_URL
+  ? `${API_URL.replace(/^http/, 'ws')}/ws`
+  : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
 
 function App() {
   const [view, setView] = useState('dashboard'); // dashboard | comparison
@@ -25,7 +28,7 @@ function App() {
   const connectWebSocket = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-    const ws = new WebSocket(WS_URL);
+    const ws = new WebSocket(WS_URI);
     wsRef.current = ws;
 
     ws.onopen = () => {
